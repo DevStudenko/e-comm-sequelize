@@ -19,7 +19,9 @@ router.post('/signup', [
 ],
     async (req, res, next) => {
         const errors = validationResult(req);
-        console.log(errors);
+        if (!errors.isEmpty()) {
+            return res.send(signupTemplate({ req, errors }));
+        }
         try {
             const { passwordConfirmation, email, password } = req.body;
             const hashedPassword = await User.hashPassword(password);
